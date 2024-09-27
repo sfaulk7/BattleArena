@@ -64,77 +64,76 @@ namespace BattleArena
             Character player = new Character(name: "Player", maxHealth: 100, attackPower: 20, defensePower: 5);
             int enemiesDefeated = 0;
 
-            //Loops until the player dies
-            while (player.Health > 0)
+            //Defines Battle
+            void Battle(Enemy enemy)
             {
-                //Defines Battle
-                void Battle(Enemy enemy)
+                //Heal player to full at the start of a battle
+                while (player.Health < player.MaxHealth)
                 {
-                    //Heal player to full at the start of a battle
-                    while (player.Health < player.MaxHealth)
+                    player.Heal();
+                }
+
+                //Scale player stats
+                player.IncreaseStats(Increaser: enemiesDefeated);
+
+                //Loops until either the enemy or player dies
+                while (player.Health > 0 && enemy.Health > 0)
+                {
+                    Console.Clear();
+                    player.PrintStats();
+                    Console.WriteLine();
+                    enemy.PrintStats();
+
+                    Console.WriteLine();
+
+                    int userInput = GetInput("What would you like to do?", "Attack", "Heal (25%)");
+                    //Player Attacks
+                    if (userInput == 1)
+                    {
+                        player.Attack(enemy);
+                        Console.WriteLine();
+                    }
+
+                    //Player Heals
+                    else if (userInput == 2)
                     {
                         player.Heal();
                     }
 
-                    //Scale player stats
-                    player.IncreaseStats(Increaser: enemiesDefeated);
-
-                    //Loops until either the enemy or player dies
-                    while (player.Health > 0 && enemy.Health > 0)
+                    //Enemy attacks ONLY if it is alive
+                    if (enemy.Health > 0)
                     {
-                        Console.Clear();
-                        player.PrintStats();
+                        float enemyDamage = enemy.Attack(player);
                         Console.WriteLine();
-                        enemy.PrintStats();
+                    }
 
-                        Console.WriteLine();
+                    Console.ReadKey();
 
-                        int userInput = GetInput("What would you like to do?", "Attack", "Heal (25%)");
-                        //Player Attacks
-                        if (userInput == 1)
-                        {
-                            float damage = player.Attack(enemy);
-                            Console.WriteLine();
-                        }
-
-                        //Player Heals
-                        else if (userInput == 2)
-                        {
-                            player.Heal();
-                        }
-
-                        //Enemy attacks ONLY if it is alive
-                        if (enemy.Health > 0)
-                        {
-                            float enemyDamage = enemy.Attack(player);
-                            Console.WriteLine();
-                        }
-
+                    //End game if player dies
+                    if (player.Health == 0)
+                    {
+                        Console.WriteLine("You died!");
+                        Console.WriteLine("Enemies Defeated: " + enemiesDefeated);
+                        Console.WriteLine("Game over!");
                         Console.ReadKey();
 
-                        //End game if player dies
-                        if (player.Health == 0)
-                        {
-                            Console.WriteLine("You died!");
-                            Console.WriteLine("Enemies Defeated: " + enemiesDefeated);
-                            Console.WriteLine("Game over!");
-                            Console.ReadKey();
+                    }
+                    //Continue if enemy dies
+                    else if (enemy.Health == 0)
+                    {
+                        enemiesDefeated += 1;
+                        Console.WriteLine("You defeated the enemy!");
+                        Console.WriteLine("Enemies Defeated: " + enemiesDefeated);
+                        Console.WriteLine("Onto the next!");
 
-                        }
-                        //Continue if enemy dies
-                        else if (enemy.Health == 0)
-                        {
-                            enemiesDefeated += 1;
-                            Console.WriteLine("You defeated the enemy!");
-                            Console.WriteLine("Enemies Defeated: " + enemiesDefeated);
-                            Console.WriteLine("Onto the next!");
-
-                            Console.ReadKey();
-                        }
+                        Console.ReadKey();
                     }
                 }
+            }
 
-
+            //Loops until the player dies
+            while (player.Health > 0)
+            {
                 //Chooses enemy
                 int ChooseEnemy()
                 {
@@ -155,7 +154,7 @@ namespace BattleArena
                 //Makes enemy Tank
                 else if (enemyChosen == 2)
                 {
-                    Enemy tank = new Tank(name: "Tank", maxHealth: 150 + enemiesDefeated * 2, attackPower: 10 + enemiesDefeated / 4, defensePower: 2 + enemiesDefeated / 2);
+                    Enemy tank = new Tank(name: "Tank", maxHealth: 150 + enemiesDefeated * 2, attackPower: 10 + enemiesDefeated / 4, defensePower: 4 + enemiesDefeated / 2);
                     //Initiates Battle
                     Battle(tank);
                 }

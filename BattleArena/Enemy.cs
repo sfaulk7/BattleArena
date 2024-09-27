@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace BattleArena
 {
-    class Enemy : Character
+    abstract class Enemy : Character
     {
         private string _name = "Enemy";
         private float _maxHealth = 10;

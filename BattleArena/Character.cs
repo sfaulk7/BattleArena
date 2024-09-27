@@ -26,6 +26,7 @@ namespace BattleArena
         public float MaxHealth
         {
             get { return _maxHealth; }
+            private set { _maxHealth = Math.Clamp(value, 0, 4294967296); }
         }
         public float Health
         {
@@ -36,12 +37,12 @@ namespace BattleArena
         public float AttackPower
         {
             get { return _attackPower; }
-            private set { _attackPower = Math.Clamp(value, 0, _attackPower); }
+            private set { _attackPower = Math.Clamp(value, 0, 4294967296); }
         }
         public float DefensePower
         {
             get { return _defensePower; }
-            private set { _defensePower = Math.Clamp(value, 0, _defensePower); }
+            private set { _defensePower = Math.Clamp(value, 0, 4294967296); }
         }
 
         public Character()
@@ -84,6 +85,7 @@ namespace BattleArena
 
         public void IncreaseStats(int Increaser)
         {
+            MaxHealth += Increaser;
             Health += Increaser;
             AttackPower += Increaser / 2;
             DefensePower += Increaser / 5;
