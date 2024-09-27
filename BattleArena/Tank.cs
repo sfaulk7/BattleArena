@@ -9,8 +9,8 @@ namespace BattleArena
     internal class Tank : Enemy
     {
         private string _name = "Tank";
-        private float _maxHealth = 200;
-        private float _health = 200;
+        private float _maxHealth = 150;
+        private float _health = 150;
         private float _attackPower = 5;
         private float _defensePower = 5;
 
