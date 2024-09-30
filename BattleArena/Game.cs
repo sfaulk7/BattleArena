@@ -138,7 +138,7 @@ namespace BattleArena
                 int ChooseEnemy()
                 {
                     Random randomNumber = new Random();
-                    int result = randomNumber.Next(1, 3);
+                    int result = randomNumber.Next(1, 4);
 
                     return result;
                 }
@@ -163,7 +163,7 @@ namespace BattleArena
                 {
                     //Choose MinMaxer's minmaxed stat
                     Random randomNumber = new Random();
-                    int result = randomNumber.Next(1, 3);
+                    int result = randomNumber.Next(1, 4);
 
                     //Assign MinMaxer's minmaxed stat to health
                     if (result == 1)
@@ -201,6 +201,7 @@ namespace BattleArena
             //Restart game
             if (userInput == 1)
             {
+                GameOver = false;
                 Console.WriteLine("Good Luck");
                 Console.ReadKey();
             }

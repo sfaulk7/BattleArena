@@ -62,6 +62,10 @@ namespace BattleArena
         public float Attack(Character other)
         {
             float damage = MathF.Max(0, _attackPower - other._defensePower);
+            if (damage <= 0)
+            {
+                damage = 1;
+            }
             Console.WriteLine(Name + " did " + damage + " to " + other.Name + "!");
             other.TakeDamage(damage);
             return damage;
@@ -85,9 +89,13 @@ namespace BattleArena
 
         public void IncreaseStats(int Increaser)
         {
+            if (Increaser >= 10)
+            {
+                Increaser = 10;
+            }
             MaxHealth += Increaser;
             Health += Increaser;
-            AttackPower += Increaser / 2;
+            AttackPower += Increaser / 5;
             DefensePower += Increaser / 5;
         }
 
